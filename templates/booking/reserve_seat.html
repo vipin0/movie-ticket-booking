@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+Movie Ticket Booking System | Reserve Seats
+{% endblock %}
+
+{% block content %}
+<div class="container justify-content-center">
+	{% if not_booked %}
+	<h1>Select Seats</h1>
+	<h2>{{ show_info }}</h2>
+	<div class="seatDiv">
+		<div class="form-group">
+			<form method="post" action="" class="form-group">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<label for="seat_no">Seat No</label>
+				<select name="seat_no" id="cars">
+				{% for i in not_booked %}
+				<option value="{{ i }}">{{ i }}</option>{{ i }}
+				{% endfor %}
+				</select>
+				<input type="hidden" name="show_id" id="show_id" value="{{ show_info.id }}" readonly />
+				<br /><br />
+				<button type="submit" class="btn btn-warning">Confirm</button>
+			</form>
+		</div>
+	</div>
+	{% else %}
+	<h1>No seats are available</h1>
+	{% endif %}
+</div>
+
+{% endblock %}

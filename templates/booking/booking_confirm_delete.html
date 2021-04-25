@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Movie Ticket Booking System | Delete
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row justify-content-ceneter">
+            <div class="col-8">
+                <form action=""  method="POST">{% csrf_token %}
+                <div class="row">
+                <div class="col-sm-offset-3 col-sm-6">
+                <p class="" style="font-size:25px">Are you sure you want to delete"{{ object }}"?</p>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-sm-offset-5 col-sm-6">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-danger" value="Confirm" />
+                </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

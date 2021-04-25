@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Movie Ticket Booking System | Movies
+{% endblock %}
+
+{% block content %}
+<div class="container"> 
+        <div class="text-center">
+            <h2>MOVIES</h2>
+        </div>
+        <div class="row justify-content-center">
+        {% for movie in movie_list %}
+            <div class=" col-4">
+            <div class="card h-100 shadow">
+              <img src="{{ movie.poster.url }}" class="card-img-top" alt="{{ movie.moviename | title }}">
+              <div class="card-body">
+		        <h3><a href="{% url 'movie:detail' movie.id %}">{{ movie.moviename | title }}</a></h3>
+                <p>
+              <div class="card-footer">
+                <p>{% if user.is_authenticated %} <a class="btn btn-primary" href="{% url 'movie:detail' movie.id %}" role="button">Book Now</a>
+                  {% else %}
+                  <a class="btn btn-primary" href="{% url 'login' %}" role="button">Streaming Now</a>
+                  {% endif %}</p>
+              </div>
+            </div>
+          </div>
+          </div>
+        {% endfor %}
+    </div>  
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+Movie Ticket Booking System | Movie Details
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container">
+        <div class="row justify-content-center">
+            <div class=" col-6">
+            <div class="card h-100 shadow">
+              <img src="{{ movie.poster.url }}" class="card-img-top" alt="{{ movie.moviename | title }}">
+              <div class="card-body">
+		        <h3>{{ movie.moviename | title }}</h3><br>
+            <h3>Now Showing</h3>
+              <p>
+              <div class="card-footer">
+                {% if show_list %}
+                {% for show in show_list %}
+                <div class="media">
+                  
+                  <div class="media-body">
+                    <h4 class="media-heading">{{ show.screen }}</h4>
+                  <ul>
+                    <!--  -->
+                      <li>{% if user.is_authenticated %}<a href="{% url 'booking:reserve_seat' show.id %}">{{ show.date|date:"M d, Y" }}  {{ show.time|time:"h:i A" }}</a>{% else %}<p>{{ show.date|date:"M d, Y" }}  {{ show.time|time:"h:i A" }}</p>{% endif %}</li>
+                    
+                    </ul> 
+                    </div>
+                  </div>
+                  {% endfor %}
+                  {% else %}
+                  <p class="lead">No Shows</p>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+          </div>
+    </div>  
+  </div>
+
+{% endblock %}
