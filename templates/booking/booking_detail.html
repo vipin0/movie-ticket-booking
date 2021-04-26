@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load tz %}
 {% block title %}
     Movie Ticket Booking System | Booking
 {% endblock %}
@@ -64,14 +64,14 @@
             {{ object.paid_amount }}
             </div>
             </div>
-            {% if object.cancel_time %}
-            <div class="row">
-            <div class="col-sm-offset-2 col-sm-8">
-            <center>
-            <a href="{% url 'booking:delete' btid=object.id %}" class="btn btn-danger">Cancel</a>
-            </center>
-            </div>
-            </div>
+            {% if object.show.date|utc < now|utc %}
+                <div class="row">
+                <div class="col-sm-offset-2 col-sm-8">
+                <center>
+                <a href="{% url 'booking:delete' btid=object.id %}" class="btn btn-danger">Cancel</a>
+                </center>
+                </div>
+                </div>
             {% endif %}
             </font>
         </div>
