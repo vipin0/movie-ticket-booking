@@ -96,4 +96,4 @@ class Booking(models.Model):
         d = datetime.now()+timedelta(days=1)
         dd = datetime.strptime(str(self.show.date)+" "+str(
             self.show.time), '%Y-%m-%d %H:%M:%S')
-        return d < dd
+        return d > dd

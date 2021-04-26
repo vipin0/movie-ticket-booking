@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Movie Ticket Booking System | Booking
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h2>My Bookings</h2>
+    <hr />
+    <br /><br />
+    {% if object_list %}
+    
+    <div class="col-sm-offset-1 col-sm-10" style="background-color:#e7e7e7">
+        <ul>
+            <font size="4">
+                
+                {% for book in object_list %}
+                <li> {{ book.movie }}  <a href="{{ book.get_absolute_url }}">{{ book }}</a></li>
+                <br />
+    {% endfor %}
+</font>
+</ul>
+</div>
+
+{% else %}
+<p class="text-center lead">No Bookings to Show</p>
+    {% endif %}
+</div>
+</div>
+</div>
+{% endblock %}
