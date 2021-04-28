@@ -52,7 +52,6 @@ class Movie(models.Model):
     def __str__(self):
         return self.moviename
 
-
 class Show(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     screen = models.ForeignKey(Screen, on_delete=models.CASCADE)

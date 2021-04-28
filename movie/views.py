@@ -56,6 +56,7 @@ class MovieListView(ListView):
 def movie_details(request, movie_id):
     try:
         movie_info = Movie.objects.get(pk=movie_id)
+        
         day1 = Show.objects.filter(movie=movie_id,
                                    date=datetime.today())
         day2 = Show.objects.filter(movie=movie_id,

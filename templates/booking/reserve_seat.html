@@ -17,7 +17,7 @@ Movie Ticket Booking System | Reserve Seats
 				<label for="seat_no">Seat No</label>
 				<select name="seat_no" id="cars">
 				{% for i in not_booked %}
-				<option value="{{ i }}">{{ i }}</option>{{ i }}
+				<option value="{{ i }}">{{ i }}</option>
 				{% endfor %}
 				</select>
 				<input type="hidden" name="show_id" id="show_id" value="{{ show_info.id }}" readonly />

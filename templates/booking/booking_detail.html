@@ -52,7 +52,7 @@
             <label>Seat No :- </label>
             </div>
             <div class="col-sm-8">
-            {{ object.seat }}
+            {{ object.seat.seat_no }}
             </div>
             </div>
             <br />
@@ -64,11 +64,11 @@
             {{ object.paid_amount }}
             </div>
             </div>
-            {% if object.show.date|utc < now|utc %}
+            {% if cancel %}
                 <div class="row">
                 <div class="col-sm-offset-2 col-sm-8">
                 <center>
-                <a href="{% url 'booking:delete' btid=object.id %}" class="btn btn-danger">Cancel</a>
+                <a href="{% url 'booking:delete' btid=object.id %}" class="btn btn-danger">Cancel Ticket</a>
                 </center>
                 </div>
                 </div>

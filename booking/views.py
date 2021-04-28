@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.http.response import Http404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -38,8 +38,6 @@ def reserve_seat(request, show_id):
         sno = request.POST.get('seat_no')
         print(sno)
         if form.is_valid() and sno != None:
-            # seat = Seat(user=request.user, show=show_info, movie=movie,
-            #             screen=screen, seat_no=int(sno))
             new_seat = form.save(commit=False)
             new_seat.user = request.user
             new_seat.movie = movie
@@ -69,18 +67,22 @@ class BookingListView(ListView):
     def get_queryset(self):
         return Booking.objects.filter(paid_by=self.request.user)
 
-
-@method_decorator(login_required, name='dispatch')
-class BookingDetailView(DetailView):
+@login_required
+def detailBookingView(request, btid):
     template_name = 'booking/booking_detail.html'
+    obj = get_object_or_404(Booking, id=btid, paid_by=request.user)
+    # print(obj)
+    print(obj.show)
+    d = datetime.strptime((datetime.now()+timedelta(days=1)
+                           ).strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
+    dd = datetime.strptime(str(obj.show.date)+" "+str(
+        obj.show.time), '%Y-%m-%d %H:%M:%S')
+    # print(type(d))
+    # print(type(dd))
+    can_be_canceled = True if d < dd else False
+    # print(can_be_canceled)
 
-    def get_queryset(self):
-        return Booking.objects.filter(paid_by=self.request.user)
-
-    def get_object(self, *args, **kwargs):
-        btid = self.kwargs.get('btid')
-        obj = get_object_or_404(Booking, id=btid)
-        return obj
+    return render(request, template_name, {"object": obj, "cancel": can_be_canceled})
 
 
 @method_decorator(login_required, name='dispatch')
