@@ -5,4 +5,5 @@
 .git
 .sqlite3
 venv/*
+.env
 
