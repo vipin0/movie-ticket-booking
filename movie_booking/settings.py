@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,12 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = 'django-insecure-7cdf^2nak5ebv@g57iv(5+uj28m+c5xa_%v5%i*^vr^%co0xd&'
+# SECRET_KEY = 'django-insecure-7cdf^2nak5ebv@g57iv(5+uj28m+c5xa_%v5%i*^vr^%co0xd&'
 
+SECRET_KEY = os.environ.get('SECRET_KEY','change_me')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG','1')))
 
 ALLOWED_HOSTS = []
+if os.environ.get('ALLOWED_HOSTS'):
+    ALLOWED_HOSTS.extend(os.environ.get('ALLOWED_HOSTS').split(','))
+else:
+    ALLOWED_HOSTS.extend(['127.0.0.1','localhost'])
 
 AUTH_USER_MODEL = 'accounts.User'
 # Application definition
@@ -90,12 +95,12 @@ WSGI_APPLICATION = 'movie_booking.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'movie',
-        'USER': 'postgres',
-        'PASSWORD': 'vipin',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('DB_ENGINE','django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DB_NAME',BASE_DIR / 'db.sqlite3'),
+        'USER': os.environ.get('DB_USER','USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD',''),
+        'HOST': os.environ.get('DB_HOST','localhost'),
+        'PORT': os.environ.get('DB_PORT','5432'),
     }
 }
 
@@ -136,14 +141,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [(BASE_DIR / 'static'), '/static/', ]
-
+STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# AUTHENTICATION_BACKENDS = ['accounts.backend.EmailBackend']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

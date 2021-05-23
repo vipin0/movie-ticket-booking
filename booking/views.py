@@ -95,3 +95,10 @@ class BookingDeleteView(DeleteView):
         btid = self.kwargs.get('btid')
         obj = get_object_or_404(Booking, id=btid)
         return obj
+
+# @method_decorator(login_required,name='dispatch')
+# def cancel_booking(request,btid):
+#     template_name = 'booking/booking_confirm_delete.html'
+#     success_url = reverse_lazy('booking:list')
+#     obj = get_object_or_404(Booking, id=btid)
+#     obj.seat

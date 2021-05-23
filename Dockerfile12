@@ -1,0 +1,29 @@
+FROM python:3.8.10-alpine
+# to wait till database is not up
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.8.0/wait /wait
+RUN chmod +x /wait
+CMD [ "./wait" ]
+# for not writing .pyc file
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+# installing postgresql dependencies
+RUN apk update --no-cache && apk add --no-cache --virtual .tmp postgresql-dev gcc python3-dev musl-dev jpeg-dev zlib-dev
+# creating user and user gruop
+RUN addgroup app && adduser -S -G app app 
+# RUN mkdir -p /home/app/web && chmod ug+rwx /home/app/web
+WORKDIR /home/app/web
+RUN chown -R app:app /home/app/web && chmod -R 755 /home/app/web
+USER app
+# RUN chown  app:app
+# adding to PATH
+ENV PATH="$HOME/.local/bin:$PATH"
+# creating virtualenv and activating it and adding to path
+RUN python -m venv ${WORKDIR}env && source ${WORKDIR}env/bin/activate
+ENV PYTHONPATH=${WORKDIR}/env/bin
+COPY requirements.txt .
+RUN pip install --user --upgrade pip && pip install --user -r requirements.txt
+COPY . .
+# deleting cache
+# RUN rm -r ~/.cache/
+EXPOSE 8000
+
