@@ -1,7 +1,7 @@
 asgiref==3.3.4
 certifi==2020.12.5
 chardet==4.0.0
-Django==3.2.12
+Django==3.2.14
 django-bootstrap4==3.0.0
 django-crispy-forms==1.11.2
 django-datetimepicker==3.14
